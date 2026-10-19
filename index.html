@@ -581,6 +581,11 @@ body.m .calc3 .f{grid-template-columns:1fr 150px}
 body.m #tracker{right:22px}
 body.m #footer{top:46px;background:rgba(19,23,28,.92);padding:4px 6px;border-radius:10px}
 body.m .slide{padding-top:96px}
+
+/* desktop: presenter controls and help at the top, so the footer (language, share, scene number) stays visible */
+body:not(.m) .ctl{top:12px;bottom:auto;right:16px}
+body:not(.m) #help{display:none}
+.c4{margin-top:44px}
 </style></head>
 <body>
 <div id="stage">
@@ -1081,7 +1086,7 @@ body.m .slide{padding-top:96px}
 <p class="shmsg" id="shmsg"></p><p class="shn">Anyone with the link can open it. Share it only with authorized Viatris personnel.</p></div></div>
 <div id="notes"><h4 id="notesTitle"></h4><div id="notesBody"></div></div>
 <div class="ctl" role="toolbar" aria-label="Presentation controls">
-  <button id="bPrev">Previous</button><button id="bNext">Next</button><button id="bExp">Guided mode</button><button id="bPause">Pause</button><button id="bMotion">Reduce motion</button><button id="bNotes">Notes</button><button id="bPres">Presenter view</button><button id="bFull">Full screen</button>
+  <button id="bPrev">Previous</button><button id="bNext">Next</button><button id="bExp">Guided mode</button><button id="bPause">Pause</button><button id="bMotion">Reduce motion</button><button id="bNotes">Notes</button><button id="bPres">Presenter view</button><button id="bHelp" title="Tap any marked number or chart for its evidence. Arrows, Space or swipe to advance. E explore mode, G scene map, Q share, F full screen, P pause, R replay, M reduce motion, N notes, S presenter view." aria-label="Help">?</button><button id="bFull">Full screen</button>
 </div>
 <div id="rotate" role="dialog" aria-live="polite"><b>Turn your device to landscape</b><span>The presentation is designed for a wide screen.</span><button id="rotOk" type="button">Continue anyway</button></div>
 <div id="help">Tap any marked number or chart for its evidence. Arrows, Space or swipe to advance. E explore mode, G scene map, Q share, F full screen, P pause, R replay, M reduce motion, N notes, S presenter view.</div>
@@ -1476,7 +1481,7 @@ let schA='C-8',exploded=false,schT=[];
 const fcount=(a,fs)=>D[a].ev.filter(e=>fs.includes(e[3])).length;
 const hotSub=a=>FUNCSUB.map(id=>[id,fcount(a,SUBF[id])]).sort((x,y)=>y[1]-x[1])[0];
 window.subPanel=id=>{const s=SUB.find(x=>x.id===id);const n=fcount(schA,SUBF[id]);$('#subPanel').innerHTML=`<h3>${s.n}</h3><p class="fnl">${s.f}</p><p class="el">${s.e}</p><div class="cnt" data-ev="${schA}|fam=${SUBF[id].join(',')}"><b>${n}</b><span>${schA} corrective orders: ${SUBF[id].map(f=>FAMN[f].toLowerCase()).join(' and ')}<br><span class="tag v" style="margin-top:6px">Confirmed data</span> <span class="tag h" style="margin-top:6px">Mapping by description</span></span></div>`};
-function explode(on){exploded=on;$('#schExp').textContent=on?'Assemble':'Explode';$$('#schem .sub').forEach((g,i)=>{if(g.dataset.s==='drive')return;const bb=g.getBBox();const dx=bb.x+bb.width/2-450,dy=bb.y+bb.height/2-330,L=Math.hypot(dx,dy)||1,k=on?44:0;g.style.transition=reduced()?'none':`transform .9s cubic-bezier(.2,.7,.2,1) ${(i*.07).toFixed(2)}s, opacity .35s`;g.style.transform=`translate(${(dx/L*k).toFixed(1)}px,${(dy/L*k).toFixed(1)}px)`})}
+function explode(on){exploded=on;$('#schExp').textContent=on?'Assemble':'Explode';$$('#schem .sub').forEach((g,i)=>{if(g.dataset.s==='drive')return;const bb=g.getBBox();const dx=bb.x+bb.width/2-450,dy0=bb.y+bb.height/2-330,dy=dy0<0?dy0*.35:dy0,L=Math.hypot(dx,dy0)||1,k=on?44:0;g.style.transition=reduced()?'none':`transform .9s cubic-bezier(.2,.7,.2,1) ${(i*.07).toFixed(2)}s, opacity .35s`;g.style.transform=`translate(${(dx/L*k).toFixed(1)}px,${(dy/L*k).toFixed(1)}px)`})}
 function markHot(){const [id,n]=hotSub(schA);$$('#schem .sub').forEach(g=>g.classList.toggle('hot',g.dataset.s===id));
  $('#hotline').innerHTML=`<span class="dot"></span>Function most affected in ${schA}: <b>${SUB.find(x=>x.id===id).n}</b>, <span class="lnk" data-ev="${schA}|fam=${SUBF[id].join(',')}">${n} corrective orders</span><small>Counted on functional symptoms only. Alarms, instrumentation and generic mechanical orders do not say which function was lost.</small>`;window.selSub(id)}
 function runSchem(){schT.forEach(clearTimeout);schT=[];explode(false);$$('#schem .sub').forEach(g=>g.classList.remove('hot'));const d=reduced()?0:1;schT.push(setTimeout(()=>explode(true),700*d));schT.push(setTimeout(markHot,1700*d))}
