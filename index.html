@@ -583,7 +583,10 @@ body.m #footer{top:46px;background:rgba(19,23,28,.92);padding:4px 6px;border-rad
 body.m .slide{padding-top:96px}
 
 /* desktop: presenter controls and help at the top, so the footer (language, share, scene number) stays visible */
-body:not(.m) .ctl{top:12px;bottom:auto;right:16px}
+#stage > .ctl{position:absolute;top:10px;right:110px;bottom:auto;left:auto;opacity:.92;z-index:8;gap:6px}
+#stage > .ctl button{font-size:15px;padding:6px 11px;background:rgba(15,42,74,.65)}
+#stage > .ctl button:hover{border-color:var(--teal)}
+body:not(.m) #tracker{top:58px}
 body:not(.m) #help{display:none}
 .c4{margin-top:44px}
 </style></head>
@@ -1621,6 +1624,9 @@ Object.assign(INFO,{
  k_f:VI(['Benefit of an added asset','How much benefit an added machine brings compared with the current ones. New assets usually start with less evidence.','VisualK assumption until each asset is analyzed.','A new machine starts with less history behind it, so we count it at a discount.','70%.'],['Beneficio de un equipo añadido','Cuánto beneficio aporta una máquina añadida comparada con las actuales. Los equipos nuevos suelen empezar con menos evidencia.','Supuesto de VisualK hasta analizar cada equipo.','Una máquina nueva arranca con menos historial, así que la contamos con descuento.','70%.']),
  scale:()=>ES_()?`<h3>Cómo se calcula el crecimiento</h3><div class="evs"><ul><li>Costo anual (año 1) = 12 × (mensualidad base + equipos añadidos × cargo por equipo) + implementación</li><li>Beneficio anual = beneficio por equipo actual × equipos actuales + beneficio por equipo actual × % × equipos añadidos</li><li>Beneficio por equipo actual = beneficio bruto del simulador × 12 ÷ meses ÷ equipos en alcance</li><li>Punto de equilibrio: el primer número de equipos en que el beneficio iguala o supera el costo</li></ul>Regla práctica: el programa se paga al crecer solo si cada equipo añadido aporta más beneficio validado que su cargo mensual.</div>`:`<h3>How growth is calculated</h3><div class="evs"><ul><li>Annual cost (year 1) = 12 × (base fee + added assets × fee per added asset) + implementation</li><li>Annual benefit = benefit per current asset × current assets + benefit per current asset × % × added assets</li><li>Benefit per current asset = simulator gross benefit × 12 ÷ months ÷ assets in scope</li><li>Break-even: the first asset count where benefit equals or exceeds cost</li></ul>Rule of thumb: the program pays as it grows only if each added asset brings more validated benefit than its monthly fee.</div>`});
 
+/* desktop: controls live in a fixed top corner of the slide; mobile: bottom bar */
+function placeCtl(){const c=document.querySelector('.ctl');if(!c)return;const mob=document.body.classList.contains('m');if(mob&&c.parentNode!==document.body)document.body.appendChild(c);if(!mob&&c.parentNode!==stage)stage.appendChild(c)}
+addEventListener('resize',()=>setTimeout(placeCtl,0));setTimeout(placeCtl,0);
 /* ---------- counters ---------- */
 function runCounts(sl){$$('[data-count]',sl).forEach(el=>{const tgt=+el.dataset.count;
  if(document.body.classList.contains('reduce')){el.textContent=fmt(tgt);return}
