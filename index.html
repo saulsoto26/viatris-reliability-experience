@@ -798,6 +798,17 @@ body.m .advf{flex-direction:column}body.m .advf .arw{transform:rotate(90deg)}bod
       </svg>
     </div>
   </section>
+  <section class="slide" data-act="1" data-title="Inside the capsule filler" data-src="Conceptual layout of a rotary capsule filler, not the OEM drawing. Counts for the selected asset: dated MY12 orders mapped by symptom family (VisualK classification by description).">
+    <h2 class="in">Inside the capsule filler</h2>
+    <div class="c4">
+      <div><svg id="schem" viewBox="0 0 900 640" width="900" height="640"></svg><span class="tag h">Conceptual layout, not the OEM drawing</span></div>
+      <div>
+        <div class="ctlrow" style="margin:0 0 12px"><div class="seg2" id="schSeg"><button data-a="C-8" class="on">C-8</button><button data-a="C-11">C-11</button></div><button class="linkbtn" id="schExp" style="margin:0">Assemble</button></div><div class="hotline" id="hotline"></div>
+        <div class="subs" id="subs"></div>
+        <div class="panel" id="subPanel"></div>
+      </div>
+    </div>
+  </section>
   <section class="slide" data-act="2" data-title="Two capsule fillers, two histories" data-src="MY12 corrective orders by Actual start year. 2022 from August; 2026 to September (C-8) and October (C-11). Order counts are not failure rates: no operating exposure in the extract.">
     <h2 class="in">Two capsule fillers, two histories</h2>
     <p class="dek in" style="--d:.15s">C-8 (MG2 G-250) and C-11 (IMA): different machines, different stories. Neither number is a failure rate.</p>
@@ -819,17 +830,6 @@ body.m .advf{flex-direction:column}body.m .advf .arw{transform:rotate(90deg)}bod
     <i class="st8" data-step="1"></i><i class="st8" data-step="2"></i>
     <p class="qbig" data-step="3">If preventive maintenance is being performed, why do these symptoms continue to appear?</p>
     <div id="woPanel"><button aria-label="Close">×</button><div id="woBody"></div></div>
-  </section>
-  <section class="slide" data-act="1" data-title="Inside the capsule filler" data-src="Conceptual layout of a rotary capsule filler, not the OEM drawing. Counts for the selected asset: dated MY12 orders mapped by symptom family (VisualK classification by description).">
-    <h2 class="in">Inside the capsule filler</h2>
-    <div class="c4">
-      <div><svg id="schem" viewBox="0 0 900 640" width="900" height="640"></svg><span class="tag h">Conceptual layout, not the OEM drawing</span></div>
-      <div>
-        <div class="ctlrow" style="margin:0 0 12px"><div class="seg2" id="schSeg"><button data-a="C-8" class="on">C-8</button><button data-a="C-11">C-11</button></div><button class="linkbtn" id="schExp" style="margin:0">Assemble</button></div><div class="hotline" id="hotline"></div>
-        <div class="subs" id="subs"></div>
-        <div class="panel" id="subPanel"></div>
-      </div>
-    </div>
   </section>
   <section class="slide" data-act="4" data-title="From symptom to failure modes" data-src="RCM logic per SAE JA1011 / JA1012 and IEC 60812. Candidate failure modes are hypotheses; no root cause is assigned. History references are C-8 work orders.">
     <h2 class="in">From symptom to failure modes</h2>
@@ -858,7 +858,7 @@ body.m .advf{flex-direction:column}body.m .advf .arw{transform:rotate(90deg)}bod
       </div>
     </div>
   </section>
-  <section class="slide" data-act="6" data-title="From signal to engineering decision" data-src="Illustrative flow based on a real SAP sequence on C-8 (June 2024). The advisory rule is a proposed configuration, not one running today; the hypotheses are candidates to validate with Viatris.">
+  <section class="slide" data-act="5" data-title="From signal to engineering decision" data-src="Illustrative flow based on a real SAP sequence on C-8 (June 2024). The advisory rule is a proposed configuration, not one running today; the hypotheses are candidates to validate with Viatris.">
     <h2 class="in mid" id="xa0">From signal to engineering decision</h2><p class="dek in" style="--d:.15s" id="xa1"></p>
     <div class="advf" id="xaF"></div><div class="advn in" style="--d:.9s" id="xaN"></div>
   </section>
@@ -1477,7 +1477,7 @@ INFO.pmchange=()=>{const es=ES_();const L=(e,s)=>es?s:e;
 document.addEventListener('fullscreenchange',()=>document.body.classList.toggle('fs',!!document.fullscreenElement));
 
 /* ===== Asset badge on every scene ===== */
-const SCOPE=["both", "both", "C-8", "dyn:sch", "C-8", "C-8", "C-8", "both", "both", "prog", "both", "both", "both"];
+const SCOPE=["both", "dyn:sch", "both", "C-8", "C-8", "C-8", "C-8", "both", "both", "prog", "both", "both", "both"];
 function badgeHTML(i){let k=SCOPE[i]||'gen';const es=ES_();
  if(k.startsWith('dyn:')){const d=k.slice(4);k=d==='sch'?schA:d==='hm'?($('#hmAsset')?.textContent||'C-8'):d==='tl'?tlAsset:(pgSel==='both'?'both':pgSel)}
  const chip=a=>`<span class="chip ${a==='C-8'?'c8':a==='C-11'?'c11':'c9'}"><i></i>${a}</span>`;
